@@ -1,0 +1,1 @@
+# OpenVINO-people-counter
