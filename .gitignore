@@ -26,6 +26,12 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+intel/
+models/
+3.6.14/
+fac.ffm
+people-counter-python/
+ssd_mobilenet_v2_coco_2018_03_29/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

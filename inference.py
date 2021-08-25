@@ -26,7 +26,7 @@ import os
 import sys
 import logging as log
 from openvino.inference_engine import IENetwork, IECore
-
+import ngraph as ng
 
 class Network:
     """
@@ -36,22 +36,66 @@ class Network:
 
     def __init__(self):
         ### TODO: Initialize any class variables desired ###
+        self.plugin = None
+        self.network = None
+        self.input_blob = None
+        self.output_blob = None
+        self.exec_network = None
+        self.infer_request = None
 
-    def load_model(self):
+    def load_model(self, model, device="CPU"):
         ### TODO: Load the model ###
-        ### TODO: Check for supported layers ###
+
         ### TODO: Add any necessary extensions ###
         ### TODO: Return the loaded inference plugin ###
         ### Note: You may need to update the function parameters. ###
+
+        model_xml = model
+        model_bin = os.path.splitext(model_xml)[0] + ".bin"
+
+        # Initialize the plugin
+        self.plugin = IECore()
+
+        # Read the IR as a IENetwork
+        self.network = IENetwork(model=model_xml, weights=model_bin)
+
+        ### TODO: Check for supported layers ###
+        if "CPU" in device:
+            supported_layers = self.plugin.query_network(self.network, "CPU")
+#            not_supported_layers = \
+#                [l for l in self.network.layers.keys() if l not in supported_layers]
+            function = ng.function_from_cnn(self.network)
+            ops = function.get_ordered_ops()
+            not_supported_layers = [
+                l for l in iter(ops) if l.friendly_name not in supported_layers
+            ]
+            if len(not_supported_layers) != 0:
+                log.error("Following layers are not supported by "
+                          "the plugin for specified device {}:\n {}".
+                          format(device,
+                                 ', '.join(not_supported_layers)))
+                log.error("Please try to specify cpu extensions library path"
+                          " in command line parameters using -l "
+                          "or --cpu_extension command line argument")
+                sys.exit(1)
+        # Load the IENetwork into the plugin
+        self.exec_network = self.plugin.load_network(self.network, device)
+
+        # Get the input layer
+        self.input_blob = next(iter(self.network.input_info))
+        self.output_blob = next(iter(self.network.outputs))
+        # Return the input shape (to determine preprocessing)
         return
 
     def get_input_shape(self):
         ### TODO: Return the shape of the input layer ###
-        return
+        return self.network.inputs[self.input_blob].shape
 
-    def exec_net(self):
+    def exec_net(self,image):
         ### TODO: Start an asynchronous request ###
-        ### TODO: Return any necessary information ###
+        self.exec_network.start_async(request_id=0, 
+            inputs={self.input_blob: image})
+        ### TODO:WHL... Return any necessary information ###
         ### Note: You may need to update the function parameters. ###
         return
 
@@ -59,9 +103,19 @@ class Network:
         ### TODO: Wait for the request to be complete. ###
         ### TODO: Return any necessary information ###
         ### Note: You may need to update the function parameters. ###
-        return
+        status = self.exec_network.requests[0].wait(-1)
+        return status
 
     def get_output(self):
         ### TODO: Extract and return the output results
         ### Note: You may need to update the function parameters. ###
-        return
+        return self.exec_network.requests[0].outputs[self.output_blob]
+
+    def clean(self):
+        """
+        Deletes all the instances
+        :return: None
+        """
+        del self.exec_network
+        del self.plugin
+        del self.network
