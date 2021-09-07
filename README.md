@@ -10,8 +10,7 @@ Some of the potential reasons for handling custom layers are...
 
 ## Comparing Model Performance
 For convert the models to Intermediate Representations, I configured the Model Optimizer as below:  
-$cd /opt/intel/openvino_2021/deployment_tools/model_optimizer/install_prerequisites  
-$source install_prerequisites.sh  
+
 My method(s) to compare models before and after conversion to Intermediate Representations
 were...
 

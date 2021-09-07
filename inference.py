@@ -26,7 +26,7 @@ import os
 import sys
 import logging as log
 from openvino.inference_engine import IENetwork, IECore
-import ngraph as ng
+#import ngraph as ng
 
 class Network:
     """
@@ -43,7 +43,7 @@ class Network:
         self.exec_network = None
         self.infer_request = None
 
-    def load_model(self, model, device="CPU"):
+    def load_model(self, model, device="CPU", cpu_extension=None, plugin=None):
         ### TODO: Load the model ###
 
         ### TODO: Add any necessary extensions ###
@@ -54,21 +54,34 @@ class Network:
         model_bin = os.path.splitext(model_xml)[0] + ".bin"
 
         # Initialize the plugin
-        self.plugin = IECore()
+        if not plugin:
+            log.info("Initializing plugin for {} device...".format(device))
+            self.plugin = IECore()
+        else:
+            self.plugin = plugin
 
+        if cpu_extension and 'CPU' in device:
+            self.plugin.add_extension(cpu_extension, "CPU")
+            
+        # Read IR            
+        log.info("Reading IR...")
         # Read the IR as a IENetwork
         self.network = IENetwork(model=model_xml, weights=model_bin)
+#        self.network = self.plugin.read_network(model=model_xml, weights=model_bin)
+        log.info("Loading IR to the plugin...")
+
+    
 
         ### TODO: Check for supported layers ###
         if "CPU" in device:
             supported_layers = self.plugin.query_network(self.network, "CPU")
-#            not_supported_layers = \
-#                [l for l in self.network.layers.keys() if l not in supported_layers]
-            function = ng.function_from_cnn(self.network)
-            ops = function.get_ordered_ops()
-            not_supported_layers = [
-                l for l in iter(ops) if l.friendly_name not in supported_layers
-            ]
+            not_supported_layers = \
+                [l for l in self.network.layers.keys() if l not in supported_layers]
+#            function = ng.function_from_cnn(self.network)
+#            ops = function.get_ordered_ops()
+#            not_supported_layers = [
+#                l for l in iter(ops) if l.friendly_name not in supported_layers
+#            ]
             if len(not_supported_layers) != 0:
                 log.error("Following layers are not supported by "
                           "the plugin for specified device {}:\n {}".
@@ -82,7 +95,7 @@ class Network:
         self.exec_network = self.plugin.load_network(self.network, device)
 
         # Get the input layer
-        self.input_blob = next(iter(self.network.input_info))
+        self.input_blob = next(iter(self.network.inputs))
         self.output_blob = next(iter(self.network.outputs))
         # Return the input shape (to determine preprocessing)
         return
@@ -90,6 +103,7 @@ class Network:
     def get_input_shape(self):
         ### TODO: Return the shape of the input layer ###
         return self.network.inputs[self.input_blob].shape
+
 
     def exec_net(self,image):
         ### TODO: Start an asynchronous request ###

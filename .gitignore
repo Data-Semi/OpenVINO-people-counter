@@ -133,3 +133,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+l_openvino_toolkit_p_2019.3.334/
+setup.sh
+l_openvino_toolkit_p_2019.3.334.tgz
