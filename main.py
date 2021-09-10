@@ -33,6 +33,8 @@ import paho.mqtt.client as mqtt
 
 from argparse import ArgumentParser
 from inference import Network
+from eval import calc_accuracy
+import datetime
 
 # MQTT server environment variables
 HOSTNAME = socket.gethostname()
@@ -40,8 +42,8 @@ IPADDRESS = socket.gethostbyname(HOSTNAME)
 TOPIC = "people_counter_python"
 MQTT_HOST = IPADDRESS
 MQTT_PORT = 3001
-MQTT_KEEPALIVE_INTERVAL = 60
-DEBUG_MODE = True
+MQTT_KEEPALIVE_INTERVAL = 50
+DEBUG_MODE = False
 
 last_count = 0
 total_count = 0
@@ -52,6 +54,8 @@ continues_frames_buff = 0
 bef_count = 0
 aft_count = 0
 start_time = time.time()
+frame_counter = []
+#pb_early_stopper = 80
 
 def build_argparser():
     """
@@ -183,7 +187,7 @@ def infer_on_stream(args, client, single_image_mode=False):
             inf_start = time.time()        
             ### TODO: Extract any desired stats from the results ###
                     # Read the graph.
-            with tf.gfile.FastGFile(model, 'rb') as f:
+            with tf.io.gfile.GFile(model, 'rb') as f:
                 graph_def = tf.compat.v1.GraphDef()
                 graph_def.ParseFromString(f.read())
             frame, current_count = infer_from_NON_conv_model(graph_def, frame)
@@ -198,7 +202,15 @@ def infer_on_stream(args, client, single_image_mode=False):
             ### current_count, total_count and duration to the MQTT server ###
             ### Topic "person": keys of "count" and "total" ###
             ### Topic "person/duration": key of "duration" ###
-            client = count_total_and_duration(client)                
+            client = count_total_and_duration(client)
+            
+
+        #Save all counted number of every frame for further evaluation.
+        frame_counter.append(current_count)
+        #to stop earlier with pre-conversion model, do not wait for finish.
+#        if model.endswith('.pb') and det_time_count > pb_early_stopper:
+#            break
+            
         if key_pressed == 27:
             break
             
@@ -217,9 +229,21 @@ def infer_on_stream(args, client, single_image_mode=False):
     #Disconnect from MQTT
     client.disconnect()
     infer_network.clean()
+
+# Calculate accuracy and average inference time and record these to a file
+    avg_inf_time = det_time_sum / det_time_count
+    avg_string = "  Average inference time is: {:.3f}ms  ".format(avg_inf_time * 1000)
+    #calculate accuracy
+    accuracy  = calc_accuracy(frame_counter)
+    accuracy_string = "The accuracy is: {:.3f} \n".format(accuracy)
+    f = open('eval.txt', 'a')
+    f.write(str(datetime.datetime.now()) + avg_string + accuracy_string)
+    f.close()
+
+    #print the result during debug mode
     if DEBUG_MODE == True:
-        avg_inf_time = det_time_sum / det_time_count
-        print("Average inference time is:{:.3f}ms".format(avg_inf_time * 1000))
+        print(avg_string)
+        print(accuracy_string)
         
 
 def count_total_and_duration(client):   

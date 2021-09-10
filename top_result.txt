@@ -1,0 +1,39 @@
+top - 06:34:04 up 1 day, 1 min,  0 users,  load average: 0.35, 0.32, 0.37
+Tasks:   0 total,   0 running,   0 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.2 us,  0.3 sy,  0.0 ni, 98.3 id,  0.1 wa,  0.0 hi,  0.1 si,  0.0 st
+KiB Mem : 12932788 total, 11109996 free,   924724 used,   898068 buff/cache
+KiB Swap:  4194304 total,  2914468 free,  1279836 used. 11688724 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+
+top - 06:34:14 up 1 day, 1 min,  0 users,  load average: 0.45, 0.34, 0.38
+Tasks:   0 total,   0 running,   0 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.5 us,  0.9 sy,  0.0 ni, 98.0 id,  0.0 wa,  0.0 hi,  0.6 si,  0.0 st
+KiB Mem : 12932788 total, 11055652 free,   965436 used,   911700 buff/cache
+KiB Swap:  4194304 total,  2914468 free,  1279836 used. 11647920 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+
+top - 06:34:24 up 1 day, 1 min,  0 users,  load average: 0.54, 0.36, 0.39
+Tasks:   0 total,   0 running,   0 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.7 us,  1.5 sy,  0.0 ni, 97.3 id,  0.0 wa,  0.0 hi,  0.4 si,  0.0 st
+KiB Mem : 12932788 total, 10938052 free,  1082856 used,   911880 buff/cache
+KiB Swap:  4194304 total,  2914468 free,  1279836 used. 11530444 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+
+top - 06:34:34 up 1 day, 1 min,  0 users,  load average: 0.76, 0.42, 0.41
+Tasks:   0 total,   0 running,   0 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 16.1 us,  1.8 sy,  0.0 ni, 81.1 id,  0.0 wa,  0.0 hi,  1.0 si,  0.0 st
+KiB Mem : 12932788 total, 10931972 free,  1088840 used,   911976 buff/cache
+KiB Swap:  4194304 total,  2914472 free,  1279832 used. 11524420 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+
+top - 06:34:44 up 1 day, 1 min,  0 users,  load average: 0.87, 0.45, 0.42
+Tasks:   0 total,   0 running,   0 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 15.2 us,  1.8 sy,  0.0 ni, 82.0 id,  0.0 wa,  0.0 hi,  1.0 si,  0.0 st
+KiB Mem : 12932788 total, 10929388 free,  1091404 used,   911996 buff/cache
+KiB Swap:  4194304 total,  2914488 free,  1279816 used. 11521856 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND

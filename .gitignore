@@ -26,12 +26,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-intel/
-models/
-3.6.14/
-fac.ffm
-people-counter-python/
-ssd_mobilenet_v2_coco_2018_03_29/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -133,6 +127,16 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Newly added by Data-Semi
 l_openvino_toolkit_p_2019.3.334/
-setup.sh
-l_openvino_toolkit_p_2019.3.334.tgz
+#setup.sh
+ssd_inception_v2_coco_2018_01_28/
+ssd_mobilenet_v1_quantized_300x300_coco14_sync_2018_07_18/
+ssdlite_mobilenet_v2_coco_2018_05_09/
+ssd_mobilenet_v2_coco_2018_03_29/
+fac.ffm
+people-counter-python/
+intel/
+nd131-openvino-fundamentals-project-starter/
+
