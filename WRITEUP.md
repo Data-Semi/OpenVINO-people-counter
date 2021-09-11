@@ -175,6 +175,8 @@ In investigating potential people counter models, I tried each of the following 
   - The model `faster_rcnn_inception_v2_coco_2018_01_28` was insufficient for the app because I have get`segmentation fault (core dumped)`error, failed to load the model. As same as the model `mask_rcnn_inception_v2_coco`, I can not get load model correctly. After load model, the model input size was only [1,3] instead of [1,3,H,W].
 
 ---
+# Result mp4 file for reference
+With the model `person-detection-retail-0013`, I have recorded the model performance.please refer to the file 2021-09-11 09-39-33_with_OpenVINO.mp4.
 ---
 # Notes for converting models steps
   1. Use command to see the version of tensorflow have been installed: 
