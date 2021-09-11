@@ -176,7 +176,7 @@ In investigating potential people counter models, I tried each of the following 
 
 ---
 # Result mp4 file for reference
-With the model `person-detection-retail-0013`, I have recorded the model performance.please refer to the file 2021-09-11 09-39-33_with_OpenVINO.mp4.
+  With the model `person-detection-retail-0013`, I have recorded the model performance.please refer to the [file](https://github.com/Data-Semi/OpenVINO-people-counter/blob/main/2021-09-11 09-39-33_with_OpenVINO.mp4)
 ---
 # Notes for converting models steps
   1. Use command to see the version of tensorflow have been installed: 
