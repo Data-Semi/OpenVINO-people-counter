@@ -6,3 +6,6 @@
 2021-09-11 06:37:37.673671  Average inference time is: 12.247ms  The accuracy is: 0.921 
 2021-09-11 07:01:39.659977  Average inference time is: 25.447ms  The accuracy is: 0.852 
 2021-09-11 07:18:48.030954  Average inference time is: 9.791ms  The accuracy is: 0.984 
+2021-09-11 09:36:06.018531  Average inference time is: 10.073ms  The accuracy is: 0.859 
+2021-09-11 09:37:11.875859  Average inference time is: 9.912ms  The accuracy is: 0.859 
+2021-09-11 09:40:25.491230  Average inference time is: 14.105ms  The accuracy is: 0.984 
