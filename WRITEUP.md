@@ -249,7 +249,6 @@ As same as the model `mask_rcnn_inception_v2_coco`, I can not get load model cor
   6. Get accuracy data etc with `eval.py`
 
 ---
----
 # Notes for setting up a local environment
 ## 1. OpenVINO installation guide:
   https://docs.openvinotoolkit.org/2019_R3/_docs_install_guides_installing_openvino_linux.html 
