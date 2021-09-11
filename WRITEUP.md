@@ -162,10 +162,10 @@ In investigating potential people counter models, I tried each of the following 
   python downloader.py --name person-detection-retail-0013 --precisions FP16 -o /mnt/c/pj/edgeai/OpenVINO-people-counter
   ```
   - Run the main.py with following argument with the converted IR:  
-    ```
+  ```
   cd /mnt/c/pj/edgeai/OpenVINO-people-counter
   python main.py -i resources/Pedestrian_Detect_2_1_1.mp4 -m ./intel/person-detection-retail-0013/FP16/person-detection-retail-0013.xml -l /opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so -d CPU -pt 0.3 | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 768x432 -framerate 24 -i - http://0.0.0.0:3004/fac.ffm  
-    ```  
+  ```  
   - from the result, we can say the model was good for the app.
   - I tried to improve the model for the app by change the threshold to 0.3 and add a variable `continues_threshold` to 10 in `main.py` that make calculation only wen inference result on frames are continuesly(more than the given threshold) have the same detection result.
 
